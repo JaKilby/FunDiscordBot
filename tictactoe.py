@@ -14,7 +14,7 @@ class TicTacToe(object):
         row_1 = constants.ROW.format(self.board[0][0], self.board[0][1], self.board[0][2])
         row_2 = constants.ROW.format(self.board[1][0], self.board[1][1], self.board[1][2])
         row_3 = constants.ROW.format(self.board[2][0], self.board[2][1], self.board[2][2])
-        return row_1 + constants.ROW_SEPERATOR + row_2 + constants.ROW_SEPERATOR + row_3
+        return "```\n" + row_1 + constants.ROW_SEPERATOR + row_2 + constants.ROW_SEPERATOR + row_3 + "\n```"
 
     def board_string(self):
         return self.__str__()
