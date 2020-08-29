@@ -16,7 +16,7 @@ class MyClient(discord.Client):
         self.turn_queue = Queue()
         print("Logged on as {}".format(self.user))
 
-    def _command_handler(self, message):
+    async def _command_handler(self, message):
         if message.content == "!games":
             await message.channel.send("@everyone val or fallguys?")
         elif message.content == "!fishtime":
