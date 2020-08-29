@@ -16,6 +16,9 @@ class MyClient(discord.Client):
         elif message.author.name == "ABakedFish":
             if "fall" in message.content.lower():
                 await message.channel.send("LeTs PlAy FaLl GuYs")
+            elif "@" in message.content:
+                await message.channel.send("Fish wants to game? ITS FISHTIME!!!!")
+                await message.channel.send("!fishtime")
         elif message.content == "!games":
             await message.channel.send("@everyone val or fallguys?")
         elif message.content == "!fishtime":
