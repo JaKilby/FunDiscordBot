@@ -39,6 +39,8 @@ class MyClient(discord.Client):
                         "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠄⠄⢸⣿⠇⠄⠄⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
                         "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣤⣴⣾⣿⣶⣤⣤⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n")
             await message.channel.send(ascii_art)
+        elif message.content.lower() == "!help":
+            await message.channel.send("Available commands:\n    !fallguys\n    !games\n    !fishtime")
 
 
 def main():
