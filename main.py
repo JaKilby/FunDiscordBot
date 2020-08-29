@@ -13,7 +13,7 @@ class MyClient(discord.Client):
         print("Message from {0.author}: {0.content}".format(message))
         #<:FishEmote: 742769011833438241 >
         rand_int = random.randint(0,100)
-        if message.author.name == "gmink" && rand_int == 50:
+        if message.author.name == "gmink" and rand_int == 50:
             await message.channel.send("shut up console nerd")
         elif message.author.name == "ABakedFish":
             if "fall" in message.content.lower():
