@@ -81,6 +81,8 @@ class MyClient(discord.Client):
                              "⠠⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄\n"
                              "```")
                 await message.channel.send(ascii_art)
+            elif message.content == "!risk":
+                await message.channel.send("The dice hate me!")
             elif message.content == "!tictactoe":
                 self.tic_tac_toe = not self.tic_tac_toe
                 if self.tic_tac_toe:
