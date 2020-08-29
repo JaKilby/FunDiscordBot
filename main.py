@@ -44,6 +44,6 @@ class MyClient(discord.Client):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     client = MyClient()
-    client.run("NzQ5MDc0OTc2MTE5NzE3OTg4.X0msbw.u93Iv8I4fJDQMFVU2KuTkjL5EnA")
+    client.run(os.environ['DISCORD_TOKEN'])
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
