@@ -26,7 +26,7 @@ class MyClient(discord.Client):
             fish_int = random.randint(0,5)
             if "fall" in message.content.lower():
                 await message.channel.send("lEtS pLaY fAlL gUyS")
-            elif "@" in message.content and fish_int == 2:
+            elif "@" in message.content and fish_int % 2 == 0:
                 await message.channel.send("Fish wants to game? ITS FISHTIME!!!!")
                 await message.channel.send("!fishtime")
         if message.content[0] == "!":
