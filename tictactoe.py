@@ -60,4 +60,4 @@ class TicTacToe(object):
         elif self.empty_tiles == 0:
             return True, "Cats game, no one wins"
         else:
-            return False
+            return False, ""
