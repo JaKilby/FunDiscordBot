@@ -6,6 +6,7 @@ class TicTacToe(object):
         self.player2 = player2
         self.player_tiles = {self.player1: constants.PLAYER1_TILE,
                              self.player2: constants.PLAYER2_TILE}
+        self.empty_tiles = 9
         self.board = [[constants.EMPTY_TILE, constants.EMPTY_TILE, constants.EMPTY_TILE],
                       [constants.EMPTY_TILE, constants.EMPTY_TILE, constants.EMPTY_TILE],
                       [constants.EMPTY_TILE, constants.EMPTY_TILE, constants.EMPTY_TILE]]
@@ -20,6 +21,7 @@ class TicTacToe(object):
         return self.__str__()
 
     def make_move(self, player, move):
+        self.empty_tiles -= 1
         tile = self.player_tiles[player]
         move = constants.MOVE_DICT[move]
         self.board[move[0]][move[1]] = tile
@@ -55,5 +57,7 @@ class TicTacToe(object):
                 return True, "{} wins".format(self.player1)
             else:
                 return True, "{} wins".format(self.player2)
+        elif self.empty_tiles == 0:
+            return True, "Cats game, no one wins"
         else:
-            return False, ""
+            return False
