@@ -20,7 +20,7 @@ class MyClient(discord.Client):
         print("Message from {0.author}: {0.content}".format(message))
 
         rand_int = random.randint(0, 100)
-        if message.author.name == "gmink" and rand_int == 50:
+        if message.author.name == "gmink" and rand_int % 20 == 0:
             await message.channel.send("shut up console nerd")
         elif message.author.name == "ABakedFish":
             fish_int = random.randint(0,5)
