@@ -64,7 +64,7 @@ class MyClient(discord.Client):
                     await message.channel.send("Exiting tic tac toe")
             elif message.content.lower() == "!help":
                 await message.channel.send("Available commands:\n    !fallguys\n    !games\n    !fishtime\n    !tictactoe")
-        elif self.tic_tac_toe and (message.author.name == self.player1 or message.author.name == self.player2):
+        elif self.tic_tac_toe:
             if not self.players_set:
                 if message.content == "me":
                     if self.player1 is None:
@@ -82,20 +82,21 @@ class MyClient(discord.Client):
                     else:
                         await message.channel.send("Game is full")
             else:
-                if message.author.name == self.current_turn:
-                    move = message.content
-                    if self.game_client.validate_move(move):
-                        resp = self.game_client.make_move(self.current_turn, move)
-                        if "wins" in resp:
+                if message.author.name == self.player1 or message.author.name == self.player2:
+                    if message.author.name == self.current_turn:
+                        move = message.content
+                        if self.game_client.validate_move(move):
+                            resp = self.game_client.make_move(self.current_turn, move)
+                            if "wins" in resp:
+                                await message.channel.send(resp)
+                                self.tic_tac_toe = False
+                                return
+                            self.turn_queue.put(self.current_turn)
+                            self.current_turn = self.turn_queue.get()
                             await message.channel.send(resp)
-                            self.tic_tac_toe = False
-                            return
-                        self.turn_queue.put(self.current_turn)
-                        self.current_turn = self.turn_queue.get()
-                        await message.channel.send(resp)
-                        await message.channel.send("{} it is now your turn.".format(self.current_turn))
-                else:
-                    await message.channel.send("It is {}'s turn".format(self.current_turn))
+                            await message.channel.send("{} it is now your turn.".format(self.current_turn))
+                    else:
+                        await message.channel.send("It is {}'s turn".format(self.current_turn))
 
 
 
