@@ -1,7 +1,7 @@
 PLAYER1_TILE = "X"
 PLAYER2_TILE = "O"
 EMPTY_TILE = " "
-ROW_SEPERATOR = " -----------\n"
+ROW_SEPERATOR = "-----------\n"
 ROW = "{} |  {}  | {}\n"
 TOP_LEFT = (0, 0)
 TOP_MIDDLE = (0, 1)
