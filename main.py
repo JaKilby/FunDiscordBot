@@ -1,6 +1,7 @@
 # This is a sample Python script.
 import discord
 import os
+import random
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
@@ -11,7 +12,8 @@ class MyClient(discord.Client):
     async def on_message(self, message):
         print("Message from {0.author}: {0.content}".format(message))
         #<:FishEmote: 742769011833438241 >
-        if message.author.name == "gmink":
+        rand_int = random.randint(0,100)
+        if message.author.name == "gmink" && rand_int == 50:
             await message.channel.send("shut up console nerd")
         elif message.author.name == "ABakedFish":
             if "fall" in message.content.lower():
