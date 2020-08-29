@@ -20,7 +20,51 @@ class MyClient(discord.Client):
         print("Message from {0.author}: {0.content}".format(message))
 
         rand_int = random.randint(0, 100)
-        if self.tic_tac_toe and message.content[0] != "!":
+        if message.author.name == "gmink" and rand_int == 50:
+            await message.channel.send("shut up console nerd")
+        elif message.author.name == "ABakedFish":
+            fish_int = random.randint(0,5)
+            if "fall" in message.content.lower():
+                await message.channel.send("lEtS pLaY fAlL gUyS")
+            elif "@" in message.content and fish_int == 2:
+                await message.channel.send("Fish wants to game? ITS FISHTIME!!!!")
+                await message.channel.send("!fishtime")
+        if message.content[0] == "!":
+            if message.content == "!games":
+                await message.channel.send("@everyone val or fallguys?")
+            elif message.content == "!fishtime":
+                fishtime_str = "<:FishEmote:742769011833438241> " * 10 + "\n" + "<:FishEmote:742769011833438241> " * 10
+                await message.channel.send(fishtime_str)
+                await message.channel.send(fishtime_str)
+                await message.channel.send(fishtime_str)
+                await message.channel.send(fishtime_str)
+                await message.channel.send(fishtime_str)
+            elif message.content == "!fallguys":
+                ascii_art = ("⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠉⠉⠉⠉⠉⠉⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+                             "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠄⢀⣠⣶⣶⣶⣶⣤⡀⠄⠄⠹⣿⣿⣿⣿⣿⣿⣿⣿\n"
+                             "⣿⣿⣿⣿⣿⣿⣿⣿⡏⠄⠄⣾⡿⢿⣿⣿⡿⢿⣿⡆⠄⠄⢻⣿⣿⣿⣿⣿⣿⣿\n"
+                             "⣿⣿⣿⣿⣿⣿⣿⡿⠃⠄⠄⢿⣇⣸⣿⣿⣇⣸⡿⠃⠄⠄⠸⣿⣿⣿⣿⣿⣿⣿\n"
+                             "⣿⣿⣿⣿⣿⡿⠋⠄⠄⠄⠄⠄⠉⠛⠛⠛⠛⠉⠄⠄⠄⠄⠄⠄⠙⣿⣿⣿⣿⣿\n"
+                             "⣿⣿⣿⣿⡟⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⢿⣿⣿⣿\n"
+                             "⣿⣿⣿⡟⠄⠄⠄⠠⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⢿⣿⣿\n"
+                             "⣿⣿⡟⠄⠄⠄⢠⣆⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣧⠄⠄⠄⠈⢿⣿\n"
+                             "⣿⣿⡇⠄⠄⠄⣾⣿⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢰⣿⣧⠄⠄⠄⠘⣿\n"
+                             "⣿⣿⣇⠄⣰⣶⣿⣿⣿⣦⣀⡀⠄⠄⠄⠄⠄⠄⠄⢀⣠⣴⣿⣿⣿⣶⣆⠄⢀⣿\n"
+                             "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠄⠄⢸⣿⠇⠄⠄⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+                             "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣤⣴⣾⣿⣶⣤⣤⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n")
+                await message.channel.send(ascii_art)
+            elif message.content == "!tictactoe":
+                self.tic_tac_toe = not self.tic_tac_toe
+                if self.tic_tac_toe:
+                    self.player1 = None
+                    self.player2 = None
+                    self.players_set = False
+                    await message.channel.send("Starting tic tac toe, player1 say \"me\"")
+                else:
+                    await message.channel.send("Exiting tic tac toe")
+            elif message.content.lower() == "!help":
+                await message.channel.send("Available commands:\n    !fallguys\n    !games\n    !fishtime\n    !tictactoe")
+        elif self.tic_tac_toe and (message.author.name == self.player1 or message.author.name == self.player2):
             if not self.players_set:
                 if message.content == "me":
                     if self.player1 is None:
@@ -38,66 +82,21 @@ class MyClient(discord.Client):
                     else:
                         await message.channel.send("Game is full")
             else:
-                if message.author.name == self.player1 or message.author.name == self.player2:
-                    if message.author.name == self.current_turn:
-                        move = message.content
-                        if self.game_client.validate_move(move):
-                            resp = self.game_client.make_move(self.current_turn, move)
-                            if "wins" in resp:
-                                await message.channel.send(resp)
-                                self.tic_tac_toe = False
-                                return
-                            self.turn_queue.put(self.current_turn)
-                            self.current_turn = self.turn_queue.get()
+                if message.author.name == self.current_turn:
+                    move = message.content
+                    if self.game_client.validate_move(move):
+                        resp = self.game_client.make_move(self.current_turn, move)
+                        if "wins" in resp:
                             await message.channel.send(resp)
-                            await message.channel.send("{} it is now your turn.".format(self.current_turn))
-                    else:
-                        await message.channel.send("It is {}'s turn".format(self.current_turn))
+                            self.tic_tac_toe = False
+                            return
+                        self.turn_queue.put(self.current_turn)
+                        self.current_turn = self.turn_queue.get()
+                        await message.channel.send(resp)
+                        await message.channel.send("{} it is now your turn.".format(self.current_turn))
+                else:
+                    await message.channel.send("It is {}'s turn".format(self.current_turn))
 
-
-        elif message.author.name == "gmink" and rand_int == 50:
-            await message.channel.send("shut up console nerd")
-        elif message.author.name == "ABakedFish":
-            fish_int = random.randint(0,5)
-            if "fall" in message.content.lower():
-                await message.channel.send("LeTs PlAy FaLl GuYs")
-            elif "@" in message.content and fish_int == 2:
-                await message.channel.send("Fish wants to game? ITS FISHTIME!!!!")
-                await message.channel.send("!fishtime")
-        elif message.content == "!games":
-            await message.channel.send("@everyone val or fallguys?")
-        elif message.content == "!fishtime":
-            fishtime_str = "<:FishEmote:742769011833438241> " * 10 +"\n" + "<:FishEmote:742769011833438241> " * 10
-            await message.channel.send(fishtime_str)
-            await message.channel.send(fishtime_str)
-            await message.channel.send(fishtime_str)
-            await message.channel.send(fishtime_str)
-            await message.channel.send(fishtime_str)
-        elif message.content == "!fallguys":
-            ascii_art = ("⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠉⠉⠉⠉⠉⠉⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
-                        "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠄⢀⣠⣶⣶⣶⣶⣤⡀⠄⠄⠹⣿⣿⣿⣿⣿⣿⣿⣿\n"
-                        "⣿⣿⣿⣿⣿⣿⣿⣿⡏⠄⠄⣾⡿⢿⣿⣿⡿⢿⣿⡆⠄⠄⢻⣿⣿⣿⣿⣿⣿⣿\n"
-                        "⣿⣿⣿⣿⣿⣿⣿⡿⠃⠄⠄⢿⣇⣸⣿⣿⣇⣸⡿⠃⠄⠄⠸⣿⣿⣿⣿⣿⣿⣿\n"
-                        "⣿⣿⣿⣿⣿⡿⠋⠄⠄⠄⠄⠄⠉⠛⠛⠛⠛⠉⠄⠄⠄⠄⠄⠄⠙⣿⣿⣿⣿⣿\n"
-                        "⣿⣿⣿⣿⡟⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⢿⣿⣿⣿\n"
-                        "⣿⣿⣿⡟⠄⠄⠄⠠⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⢿⣿⣿\n"
-                        "⣿⣿⡟⠄⠄⠄⢠⣆⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣧⠄⠄⠄⠈⢿⣿\n"
-                        "⣿⣿⡇⠄⠄⠄⣾⣿⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢰⣿⣧⠄⠄⠄⠘⣿\n"
-                        "⣿⣿⣇⠄⣰⣶⣿⣿⣿⣦⣀⡀⠄⠄⠄⠄⠄⠄⠄⢀⣠⣴⣿⣿⣿⣶⣆⠄⢀⣿\n"
-                        "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠄⠄⢸⣿⠇⠄⠄⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
-                        "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣤⣴⣾⣿⣶⣤⣤⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n")
-            await message.channel.send(ascii_art)
-        elif message.content == "!tictactoe":
-            self.tic_tac_toe = not self.tic_tac_toe
-            if self.tic_tac_toe:
-                self.player1 = None
-                self.player2 = None
-                self.players_set = False
-                await message.channel.send("Starting tic tac toe, player1 say \"me\"")
-            else:
-                await message.channel.send("Exiting tic tac toe")
-        elif message.content.lower() == "!help":
-            await message.channel.send("Available commands:\n    !fallguys\n    !games\n    !fishtime\n    !tictactoe")
 
 
 def main():
