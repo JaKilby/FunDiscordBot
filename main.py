@@ -13,6 +13,8 @@ class MyClient(discord.Client):
         self.players_set = False
         self.current_turn = None
         self.game_client = None
+        self.player1 = None
+        self.player2 = None
         self.turn_queue = Queue()
         print("Logged on as {}".format(self.user))
 
