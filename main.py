@@ -131,6 +131,7 @@ class MyClient(discord.Client):
         elif message.content == "!slots":
             print("test")
             print("Game str {}".format(game_str))
+            return "here"
             game_str = message.content.split()
             if len(game_str) != 0:
                 return "Please use format \"!slots wager\""
