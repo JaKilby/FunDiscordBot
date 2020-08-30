@@ -110,6 +110,10 @@ class MyClient(discord.Client):
                     wager = wager * 2
                 self.manager.give_credits(message.author.name, wager)
                 return roll_statement + "You won {} credits".format(wager)
+        elif message.content == "!emojis" and message.author.name == "kilbo":
+            emojis = self.emojis
+            emoji_ids = [(emoji.id, emoji.name) for emoji in emojis]
+            self.manager.save_emojis(emoji_ids)
 
 
         elif message.content.lower() == "!help":

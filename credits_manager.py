@@ -32,6 +32,18 @@ class CreditManager(object):
         c.execute("UPDATE credits SET credits = %s WHERE player = %s", (total_credits, player_name))
         self.conn.commit()
 
+    def save_emojis(self, emojis):
+        c = self.conn.cursor()
+        c.execute('''CREATE TABLE IF NOT EXISTS emojis
+                                    (id integer PRIMARY KEY, name varchar)''')
+        self.conn.commit()
+        for emoji in emojis:
+            SQL = '''INSERT INTO emojis (id, name) VALUES (%s, %s)
+                         ON CONFLICT (id) DO UPDATE
+                            SET name = excluded.name'''
+            c.execute(SQL, emoji)
+        self.conn.commit()
+
 if __name__ == "__main__":
     manager = CreditManager()
     manager.create_table()
