@@ -133,7 +133,8 @@ class MyClient(discord.Client):
             wager = game_str[1]
             wager_check = self.check_wager(wager, message.author.name)
             if not wager_check[0]:
-                return wager_check[1]
+                return "here"
+                #return wager_check[1]
             wager = int(wager)
             game_results = self.game_manager.slots()
             win = game_results[0]
