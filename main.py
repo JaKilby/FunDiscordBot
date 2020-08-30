@@ -4,6 +4,7 @@ import os
 import random
 from tictactoe import TicTacToe
 from credits_manager import CreditManager
+from constants import NED, SURPRISE
 from games import Games
 from queue import Queue
 # Press Shift+F10 to execute it or replace it with your code.
@@ -26,8 +27,12 @@ class MyClient(discord.Client):
     def handle_commands(self, message):
         if message.content == "!games":
             return "@everyone val or fallguys?"
+        elif message.content == "!ned":
+            return NED
+        elif message.content == "!surprise":
+            return SURPRISE
         elif message.content == "!fallguys":
-            ascii_art = ("⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠉⠉⠉⠉⠉⠉⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+            ascii_art = ("```⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠉⠉⠉⠉⠉⠉⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
                          "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠄⢀⣠⣶⣶⣶⣶⣤⡀⠄⠄⠹⣿⣿⣿⣿⣿⣿⣿⣿\n"
                          "⣿⣿⣿⣿⣿⣿⣿⣿⡏⠄⠄⣾⡿⢿⣿⣿⡿⢿⣿⡆⠄⠄⢻⣿⣿⣿⣿⣿⣿⣿\n"
                          "⣿⣿⣿⣿⣿⣿⣿⡿⠃⠄⠄⢿⣇⣸⣿⣿⣇⣸⡿⠃⠄⠄⠸⣿⣿⣿⣿⣿⣿⣿\n"
@@ -38,7 +43,7 @@ class MyClient(discord.Client):
                          "⣿⣿⡇⠄⠄⠄⣾⣿⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢰⣿⣧⠄⠄⠄⠘⣿\n"
                          "⣿⣿⣇⠄⣰⣶⣿⣿⣿⣦⣀⡀⠄⠄⠄⠄⠄⠄⠄⢀⣠⣴⣿⣿⣿⣶⣆⠄⢀⣿\n"
                          "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠄⠄⢸⣿⠇⠄⠄⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
-                         "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣤⣴⣾⣿⣶⣤⣤⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n")
+                         "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣤⣴⣾⣿⣶⣤⣤⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n```")
             return ascii_art
         elif message.content == "!reverse":
             ascii_art = ("```\n"
@@ -142,7 +147,7 @@ class MyClient(discord.Client):
                 result = game_results[1] + "\n" + "LOSER, You lost {} credits".format(wager)
                 return result
             else:
-                wager = wager * 30
+                wager = wager * 50
                 self.manager.give_credits(message.author.name, wager)
                 result = game_results[1] + "\n" + "WINNER, You won {} credits".format(wager)
                 return result
@@ -176,7 +181,7 @@ class MyClient(discord.Client):
                 await message.channel.send("Fish wants to game? ITS FISHTIME!!!!")
                 await message.channel.send("!fishtime")
         elif message.author.name == "Scetched":
-            ethan_int = random.randint(1, 3)
+            ethan_int = random.randint(1, 20)
             if ethan_int == 1:
                 await message.channel.send("\"This game sucks, I didn't read the rules and I don't understand what's going on\" - Ethan")
         elif message.author.name == "kilbo":

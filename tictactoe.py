@@ -35,7 +35,6 @@ class TicTacToe(object):
         return move_string in constants.MOVE_DICT
 
 
-
     def check_win(self):
         for i in range(2):
             if all(tile == constants.PLAYER1_TILE for tile in self.board[i]):
