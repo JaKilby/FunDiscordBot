@@ -186,8 +186,7 @@ class MyClient(discord.Client):
 
 def main():
     client = MyClient()
-    #client.run(os.environ['DISCORD_TOKEN'])
-    client.run("NzQ5MDc0OTc2MTE5NzE3OTg4.X0msbw.9cgdBWADUcK3kjhxl5kz5MwrCYE")
+    client.run(os.environ['DISCORD_TOKEN'])
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
