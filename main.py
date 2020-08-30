@@ -9,7 +9,18 @@ from queue import Queue
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
+
 class MyClient(discord.Client):
+    def check_wager(self, wager, player):
+        if wager.isnumeric():
+            wager = int(wager)
+        else:
+            return False, "Please only wager positive, whole numbers."
+        player_credits = self.manager.check_credits(message.author.name)
+        if wager > player_credits:
+            return False, "Cannot wager more credits than you have."
+        return True, ""
+
     def handle_commands(self, message):
         if message.content == "!games":
             return "@everyone val or fallguys?"
@@ -93,23 +104,20 @@ class MyClient(discord.Client):
             if guess not in ["even", "high", "low"]:
                 return "Guess must be one of [even, high, low]"
             wager = game_str[2]
-            if wager.isnumeric():
-                wager = int(wager)
-            else:
-                return "Please only wager positive, whole numbers."
-            player_credits = self.manager.check_credits(message.author.name)
-            if wager > player_credits:
-                return "Cannot wager more credits than you have."
+            wager_check = self.check_wager(wager, message.author.name)
+            if not wager_check[0]:
+                return [1]
+            wager = int(wager)
             win, roll = self.game_manager.high_low(guess)
             roll_statement = "The roll was: {}\n".format(roll)
             if not win:
                 self.manager.give_credits(message.author.name, -wager)
-                return roll_statement + "You lost {} credits".format(wager)
+                return roll_statement + "LOSER, You lost {} credits".format(wager)
             else:
                 if guess == "even":
                     wager = wager * 2
                 self.manager.give_credits(message.author.name, wager)
-                return roll_statement + "You won {} credits".format(wager)
+                return roll_statement + "WINNER, You won {} credits".format(wager)
         elif message.content == "!emojis" and message.author.name == "kilbo":
             emojis = self.emojis
             emoji_ids = [(str(emoji.id), emoji.name) for emoji in emojis]
@@ -118,8 +126,24 @@ class MyClient(discord.Client):
             return worked
         elif message.content == "!emoji_ids":
             return self.manager.get_emojis()
-        elif message.content == "!test":
-            return self.game_manager.slots()[1]
+        elif message.content == "!slots":
+            game_str = message.content.split()
+            if len(game_str) != 2:
+                return "Please use format \"!slots wager\""
+            wager = game_str[1]
+            wager_check = self.check_wager(wager, message.author.name)
+            if not wager_check[0]:
+                return wager_check[1]
+            wager = int(wager)
+            game_results = self.game_manager.slots()
+            win = game_results[0]
+            if not win:
+                self.manager.give_credits(message.author.name, -wager)
+                return game_results[0] + "\n" + roll_statement + "LOSER, You lost {} credits".format(wager)
+            else:
+                wager = wager * 30
+                self.manager.give_credits(message.author.name, wager)
+                return game_results[0] + "\n" + "WINNER, You won {} credits".format(wager)
         elif message.content.lower() == "!help":
             return "Available commands:\n    !fallguys\n    !games\n    !fishtime\n    !tictactoe\n    !highlow\n    !check_credits\n    !check_balance"
 
