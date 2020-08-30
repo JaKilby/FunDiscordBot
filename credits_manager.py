@@ -38,7 +38,7 @@ class CreditManager(object):
                                     (id varchar PRIMARY KEY, name varchar)''')
         self.conn.commit()
         for emoji in emojis:
-            SQL = '''INSERT INTO emojis (id, name) VALUES (%s, %s)
+            SQL = '''INSERT INTO emoji_ids (id, name) VALUES (%s, %s)
                          ON CONFLICT (id) DO UPDATE
                             SET name = excluded.name'''
             c.execute(SQL, emoji)
