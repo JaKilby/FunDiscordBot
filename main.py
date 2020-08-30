@@ -126,9 +126,9 @@ class MyClient(discord.Client):
             worked = "No"
             worked = self.manager.save_emojis(emoji_ids)
             return worked
-        elif message.content == "!slots":
+        elif "!slots" in message.content:
             game_str = message.content.split()
-            if len(game_str) != 0:
+            if len(game_str) != 2:
                 return "Please use format \"!slots wager\""
             wager = game_str[1]
             wager_check = self.check_wager(wager, message.author.name)
