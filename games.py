@@ -9,9 +9,9 @@ PERSON_FENCING = u':person_fencing:'
 CROISSANT = u':croissant:'
 WATERMELON = u':watermelon:'
 SNOWBOARDER = u':snowboarder:'
-SPIDER = u':spider:'
+SPIDER_WEB = u':spider_web:'
 EMOJIS = [DIAMOND, PIRATE_FLAG, BEER, ICECREAM, PERSON_FENCING, CROISSANT,
-          WATERMELON, SNOWBOARDER, SPIDER, ORANGE_DIAMOND]
+          WATERMELON, SNOWBOARDER, SPIDER_WEB, ORANGE_DIAMOND]
 class Games(object):
     def __init__(self, credit_manager):
         self.credit_manager = credit_manager
