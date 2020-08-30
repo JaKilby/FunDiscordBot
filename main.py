@@ -113,7 +113,9 @@ class MyClient(discord.Client):
         elif message.content == "!emojis" and message.author.name == "kilbo":
             emojis = self.emojis
             emoji_ids = [(emoji.id, emoji.name) for emoji in emojis]
-            self.manager.save_emojis(emoji_ids)
+            worked = "No"
+            worked = self.manager.save_emojis(emoji_ids)
+            return worked
         elif message.content.lower() == "!help":
             return "Available commands:\n    !fallguys\n    !games\n    !fishtime\n    !tictactoe\n    !highlow\n    !check_credits\n    !check_balance"
 

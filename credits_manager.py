@@ -34,8 +34,8 @@ class CreditManager(object):
 
     def save_emojis(self, emojis):
         c = self.conn.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS emojis
-                                    (id integer PRIMARY KEY, name varchar)''')
+        c.execute('''CREATE TABLE IF NOT EXISTS emoji_ids
+                                    (id varchar PRIMARY KEY, name varchar)''')
         self.conn.commit()
         for emoji in emojis:
             SQL = '''INSERT INTO emojis (id, name) VALUES (%s, %s)
@@ -43,6 +43,7 @@ class CreditManager(object):
                             SET name = excluded.name'''
             c.execute(SQL, emoji)
         self.conn.commit()
+        return "worked"
 
 if __name__ == "__main__":
     manager = CreditManager()
