@@ -175,6 +175,14 @@ class MyClient(discord.Client):
             elif "@" in message.content and fish_int % 2 == 0:
                 await message.channel.send("Fish wants to game? ITS FISHTIME!!!!")
                 await message.channel.send("!fishtime")
+        elif message.author.name == "Scetched":
+            ethan_int = random.randint(1, 3)
+            if ethan_int == 1:
+                await message.channel.send("\"This game sucks, I didn't read the rules and I don't understand what's going on\" - Ethan")
+        elif message.author.name == "kilbo":
+            kilbo_int = random.randint(1, 20)
+            if kilbo_int == 15:
+                await message.channel.send("\"I gotta pick up some wine, drive 40 minutes to the dispo\" - kilbo")
         if message.content[0] == "!":
             if message.content == "!fishtime":
                 fishtime_str = "<:FishEmote:742769011833438241> " * 10 + "\n" + "<:FishEmote:742769011833438241> " * 10
