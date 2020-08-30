@@ -140,11 +140,11 @@ class MyClient(discord.Client):
             win = game_results[0]
             if not win:
                 self.manager.give_credits(message.author.name, -wager)
-                return game_results[0] + "\n" + roll_statement + "LOSER, You lost {} credits".format(wager)
+                return game_results[1] + "\n" + roll_statement + "LOSER, You lost {} credits".format(wager)
             else:
                 wager = wager * 30
                 self.manager.give_credits(message.author.name, wager)
-                return game_results[0] + "\n" + "WINNER, You won {} credits".format(wager)
+                return game_results[1] + "\n" + "WINNER, You won {} credits".format(wager)
         elif message.content.lower() == "!help":
             return "Available commands:\n    !fallguys\n    !games\n    !fishtime\n    !tictactoe\n    !highlow\n    !check_credits\n    !check_balance"
 
