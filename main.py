@@ -118,6 +118,8 @@ class MyClient(discord.Client):
             return worked
         elif message.content == "!emoji_ids":
             return self.manager.get_emojis()
+        elif message.content == "!test":
+            return self.game_manager.slots()[1]
         elif message.content.lower() == "!help":
             return "Available commands:\n    !fallguys\n    !games\n    !fishtime\n    !tictactoe\n    !highlow\n    !check_credits\n    !check_balance"
 
