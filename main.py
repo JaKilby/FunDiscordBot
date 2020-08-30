@@ -83,6 +83,8 @@ class MyClient(discord.Client):
             if credits == 0:
                 return "{} is broke.".format(player)
             return "{} has {} credits".format(player, credits)
+        elif "!check_balance" == message.content:
+            return "You have {} credits".format(self.manager.check_credits(message.author.name))
         elif message.content.split()[0] == "!highlow":
             game_str = message.content.split()
             if len(game_str) > 3:
@@ -111,7 +113,7 @@ class MyClient(discord.Client):
 
 
         elif message.content.lower() == "!help":
-            return "Available commands:\n    !fallguys\n    !games\n    !fishtime\n    !tictactoe"
+            return "Available commands:\n    !fallguys\n    !games\n    !fishtime\n    !tictactoe\n    !highlow\n    !check_credits\n    !check_balance"
 
     async def on_ready(self):
         self.tic_tac_toe = False
