@@ -125,6 +125,7 @@ class MyClient(discord.Client):
         self.turn_queue = Queue()
         self.manager = CreditManager()
         self.game_manager = Games(self.manager)
+        self.manager.create_table()
         print("Logged on as {}".format(self.user))
 
     async def on_message(self, message):

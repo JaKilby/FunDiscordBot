@@ -1,9 +1,10 @@
-import sqlite3
+import psycopg2
+import os
 
 
 class CreditManager(object):
     def __init__(self):
-        self.conn = sqlite3.connect("game.db")
+        self.conn = psycopg2.connect(os.environ["DATABASE_URL"], sslmode="require")
 
     def create_table(self):
         c = self.conn.cursor()
