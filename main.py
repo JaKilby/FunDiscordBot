@@ -16,7 +16,7 @@ class MyClient(discord.Client):
             wager = int(wager)
         else:
             return False, "Please only wager positive, whole numbers."
-        player_credits = self.manager.check_credits(message.author.name)
+        player_credits = self.manager.check_credits(player)
         if wager > player_credits:
             return False, "Cannot wager more credits than you have."
         return True, ""
