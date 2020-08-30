@@ -114,8 +114,6 @@ class MyClient(discord.Client):
             emojis = self.emojis
             emoji_ids = [(emoji.id, emoji.name) for emoji in emojis]
             self.manager.save_emojis(emoji_ids)
-
-
         elif message.content.lower() == "!help":
             return "Available commands:\n    !fallguys\n    !games\n    !fishtime\n    !tictactoe\n    !highlow\n    !check_credits\n    !check_balance"
 
