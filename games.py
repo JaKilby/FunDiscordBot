@@ -35,16 +35,16 @@ class Games(object):
                 rand_choice = random.randint(0, 8)
                 row.append(EMOJIS[rand_choice])
             selected.append(row)
-        slot_str = ""
+        slot_str = u''
         for row in selected:
-            row_str = ""
+            row_str = u''
             for emoji in row:
                 row_str += emoji
-            row_str += "\n"
+            row_str += u'\n'
             slot_str += row_str
         if selected[1][0] == selected[1][1] == selected[1][2]:
             win = True
         else:
             win = False
-        return win, "{}".format(slot_str)
+        return win, u'{}'.format(slot_str)
 
