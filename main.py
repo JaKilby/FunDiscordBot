@@ -112,7 +112,7 @@ class MyClient(discord.Client):
                 return roll_statement + "You won {} credits".format(wager)
         elif message.content == "!emojis" and message.author.name == "kilbo":
             emojis = self.emojis
-            emoji_ids = [(emoji.id, emoji.name) for emoji in emojis]
+            emoji_ids = [(str(emoji.id), emoji.name) for emoji in emojis]
             worked = "No"
             worked = self.manager.save_emojis(emoji_ids)
             return worked
