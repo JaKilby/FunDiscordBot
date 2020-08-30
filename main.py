@@ -98,7 +98,7 @@ class MyClient(discord.Client):
             return "{} has {} credits".format(player, credits)
         elif "!check_balance" == message.content:
             return "You have {} credits".format(self.manager.check_credits(message.author.name))
-        elif message.content.split()[0] == "!highlow":
+        elif "!highlow" in message.content:
             game_str = message.content.split()
             if len(game_str) > 3:
                 return "Please use format \"!highlow guess wager\""
