@@ -12,6 +12,8 @@ from queue import Queue
 
 class MyClient(discord.Client):
     def check_wager(self, wager, player):
+        print("in check wager")
+        print("wager: {}".format(wager))
         if wager.isnumeric():
             wager = int(wager)
         else:
