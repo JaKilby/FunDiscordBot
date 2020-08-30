@@ -4,6 +4,7 @@ import os
 import random
 from tictactoe import TicTacToe
 from credits_manager import CreditManager
+from games import Games
 from queue import Queue
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
@@ -82,6 +83,31 @@ class MyClient(discord.Client):
             if credits == 0:
                 return "{} is broke.".format(player)
             return "{} has {} credits".format(player, credits)
+        elif message.content.split()[0] == "!highlow":
+            game_str = message.content.split()
+            if len(game_str) > 3:
+                return "Please use format \"!highlow guess wager\""
+            guess = game_str[1]
+            if guess not in ["even", "high", "low"]:
+                return "Guess must be one of [even, high, low]"
+            wager = game_str[2]
+            if wager.isnumeric():
+                wager = int(wager)
+            else:
+                return "Please only wager positive, whole numbers."
+            player_credits = self.manager.check_credits(message.author.name)
+            if wager > player_credits:
+                return "Cannot wager more credits than you have."
+            win, roll = self.game_manager.high_low(guess)
+            roll_statement = "The roll was: {}\n".format(roll)
+            if not win:
+                self.manager.give_credits(message.author.name, -wager)
+                return roll_statement + "You lost {} credits".format(wager)
+            else:
+                if guess == "even":
+                    wager = wager * 2
+                self.manager.give_credits(message.author.name, wager)
+                return roll_statement + "You won {} credits".format(wager)
 
 
         elif message.content.lower() == "!help":
@@ -96,6 +122,7 @@ class MyClient(discord.Client):
         self.player2 = None
         self.turn_queue = Queue()
         self.manager = CreditManager()
+        self.game_manager = Games(self.manager)
         print("Logged on as {}".format(self.user))
 
     async def on_message(self, message):
@@ -159,7 +186,8 @@ class MyClient(discord.Client):
 
 def main():
     client = MyClient()
-    client.run(os.environ['DISCORD_TOKEN'])
+    #client.run(os.environ['DISCORD_TOKEN'])
+    client.run("NzQ5MDc0OTc2MTE5NzE3OTg4.X0msbw.9cgdBWADUcK3kjhxl5kz5MwrCYE")
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
