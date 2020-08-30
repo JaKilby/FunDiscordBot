@@ -32,8 +32,8 @@ class Games(object):
         for i in range(3):
             row = []
             for j in range(3):
-                random = random.randint(0,8)
-                row.append(EMOJIS[random])
+                rand_choice = random.randint(0,8)
+                row.append(EMOJIS[rand_choice])
             selected.append(row)
         slot_str = ""
         for row in selected:
