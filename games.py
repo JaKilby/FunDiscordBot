@@ -1,6 +1,6 @@
 import random
 
-DIAMOND = u':small_blue_diamond'
+DIAMOND = u':small_blue_diamond:'
 ORANGE_DIAMOND = u':small_orange_diamond:'
 PIRATE_FLAG = u':pirate_flag:'
 BEER = u':beer:'
@@ -8,7 +8,7 @@ ICECREAM = u':icecream:'
 PERSON_FENCING = u':person_fencing:'
 CROISSANT = u':croissant:'
 WATERMELON = u':watermelon:'
-SPIDER_WEB = u':spider_web'
+SPIDER_WEB = u':spider_web:'
 SPIDER = u':spider:'
 EMOJIS = [DIAMOND, PIRATE_FLAG, BEER, ICECREAM, PERSON_FENCING, CROISSANT,
           WATERMELON, SPIDER_WEB, SPIDER, ORANGE_DIAMOND]
