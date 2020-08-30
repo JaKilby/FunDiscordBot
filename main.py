@@ -134,7 +134,7 @@ class MyClient(discord.Client):
         if message.author.name == "gmink" and rand_int % 20 == 0:
             await message.channel.send("shut up console nerd")
         elif message.author.name == "ABakedFish" and "ABakedFish" not in [self.player1, self.player2]:
-            fish_int = random.randint(0,5)
+            fish_int = random.randint(0, 5)
             if "fall" in message.content.lower():
                 await message.channel.send("lEtS pLaY fAlL gUyS")
             elif "@" in message.content and fish_int % 2 == 0:

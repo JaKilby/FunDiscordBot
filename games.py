@@ -10,7 +10,7 @@ class Games(object):
             return True, pick
         elif guess == "low" and pick < 6:
             return True, pick
-        elif guess == "mid" and pick == 6:
+        elif guess == "even" and pick == 6:
             return True, pick
         else:
             return False, pick
