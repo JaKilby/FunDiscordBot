@@ -126,12 +126,7 @@ class MyClient(discord.Client):
             worked = "No"
             worked = self.manager.save_emojis(emoji_ids)
             return worked
-        elif message.content == "!emoji_ids":
-            return self.manager.get_emojis()
         elif message.content == "!slots":
-            print("test")
-            print("Game str {}".format(game_str))
-            return "here"
             game_str = message.content.split()
             if len(game_str) != 0:
                 return "Please use format \"!slots wager\""
@@ -147,7 +142,6 @@ class MyClient(discord.Client):
             if not win:
                 self.manager.give_credits(message.author.name, -wager)
                 result = game_results[1] + "\n" + roll_statement + "LOSER, You lost {} credits".format(wager)
-
                 return result
             else:
                 wager = wager * 30
