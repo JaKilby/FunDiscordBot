@@ -34,16 +34,22 @@ class CreditManager(object):
 
     def save_emojis(self, emojis):
         c = self.conn.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS emoji_ids
+        c.execute('''CREATE TABLE IF NOT EXISTS emoji_name_ids
                                     (id varchar PRIMARY KEY, name varchar)''')
         self.conn.commit()
         for emoji in emojis:
-            SQL = '''INSERT INTO emoji_ids (id, name) VALUES (%s, %s)
+            SQL = '''INSERT INTO emoji_name_ids (id, name) VALUES (%s, %s)
                          ON CONFLICT (id) DO UPDATE
                             SET name = excluded.name'''
             c.execute(SQL, emoji)
         self.conn.commit()
         return "worked"
+
+    def get_emojis(self, emojis):
+        c = self.conn.cursor()
+        c.execute("SELECT id FROM emoji_ids")
+        return list(c.fetchall())
+
 
 if __name__ == "__main__":
     manager = CreditManager()

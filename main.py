@@ -116,6 +116,8 @@ class MyClient(discord.Client):
             worked = "No"
             worked = self.manager.save_emojis(emoji_ids)
             return worked
+        elif message.content == "!emoji_ids":
+            return self.manager.get_emojis()
         elif message.content.lower() == "!help":
             return "Available commands:\n    !fallguys\n    !games\n    !fishtime\n    !tictactoe\n    !highlow\n    !check_credits\n    !check_balance"
 
