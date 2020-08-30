@@ -130,10 +130,10 @@ class MyClient(discord.Client):
             return self.manager.get_emojis()
         elif message.content == "!slots":
             print("test")
-            game_str = message.content.split()
-            if len(game_str) != 2:
-                return "Please use format \"!slots wager\""
             print("Game str {}".format(game_str))
+            game_str = message.content.split()
+            if len(game_str) != 0:
+                return "Please use format \"!slots wager\""
             wager = game_str[1]
             wager_check = self.check_wager(wager, message.author.name)
             if not wager_check[0]:
