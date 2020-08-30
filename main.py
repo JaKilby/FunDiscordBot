@@ -136,18 +136,19 @@ class MyClient(discord.Client):
                 return "here"
                 #return wager_check[1]
             wager = int(wager)
+            print("pregame")
             game_results = self.game_manager.slots()
             win = game_results[0]
             if not win:
                 self.manager.give_credits(message.author.name, -wager)
                 result = game_results[1] + "\n" + roll_statement + "LOSER, You lost {} credits".format(wager)
-                print(result)
+
                 return result
             else:
                 wager = wager * 30
                 self.manager.give_credits(message.author.name, wager)
                 result = game_results[1] + "\n" + "WINNER, You won {} credits".format(wager)
-                print(result)
+                print("result is: {}".format(result))
                 return result
         elif message.content.lower() == "!help":
             return "Available commands:\n    !fallguys\n    !games\n    !fishtime\n    !tictactoe\n    !highlow\n    !check_credits\n    !check_balance"
