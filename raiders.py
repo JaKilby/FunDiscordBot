@@ -158,13 +158,14 @@ class RaidersManager(object):
         return True
 
     def create_tables(self):
-        self.conn.execute('''CREATE TABLE IF NOT EXISTS players
+        c = self.conn.cursor()
+        c.execute('''CREATE TABLE IF NOT EXISTS players
                                             (id varchar PRIMARY KEY, name varchar, gold integer, generators integer)''')
-        self.conn.execute('''CREATE TABLE IF NOT EXISTS items
+        c.execute('''CREATE TABLE IF NOT EXISTS items
                                             (id REFERENCES players(id), item varchar)''')
-        self.conn.execute('''CREATE TABLE IF NOT EXISTS buildings
+        c.execute('''CREATE TABLE IF NOT EXISTS buildings
                                             (id REFERENCES players(id), building varchar)''')
-        self.conn.execute('''CREATE TABLE IF NOT EXISTS garrison
+        c.execute('''CREATE TABLE IF NOT EXISTS garrison
                                             (id REFERENCES players(id), unit varchar)''')
         self.conn.commit()
 
