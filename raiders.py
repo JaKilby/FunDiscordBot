@@ -146,9 +146,9 @@ class RaidersManager(object):
         items = base.items
         generators = len(base.generators)
         buildings = base.buildings
-        self.save_table('buildings', base.buildings)
-        self.save_table('items', base.items)
-        self.save_table('garrison', base.garrison)
+        self.save_table('buildings', id, base.buildings)
+        self.save_table('items', id, base.items)
+        self.save_table('garrison', id, base.garrison)
         c = self.conn.cursor()
         c.execute("UPDATE players SET gold = %s WHERE player_id = %s", (player.gold, player.id))
         c.execute("UPDATE players SET generators = %s WHERE player_id = %s", (generators, player.id))
