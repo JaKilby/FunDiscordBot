@@ -73,7 +73,9 @@ class RaidersManager(object):
 
     def populate_players(self):
         player_cur = self.conn.cursor()
-        player_list = player_cur.execute("SELECT id, name, gold, generators FROM players").fetchall()
+        player_list = player_cur.execute("SELECT id, name, gold, generators FROM players")
+        if player_list is not None:
+            player_list = player_list.fetchall()
         for player in player_list:
             player_id = player[0]
             player_name = player[1]
