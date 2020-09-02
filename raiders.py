@@ -162,11 +162,11 @@ class RaidersManager(object):
         c.execute('''CREATE TABLE IF NOT EXISTS players
                                             (id varchar PRIMARY KEY, name varchar, gold integer, generators integer)''')
         c.execute('''CREATE TABLE IF NOT EXISTS items
-                                            (id varchar, item varchar) CONSTRAINT player_id FOREIGN KEY(id) REFERENCES players(id)''')
+                                            (id varchar, item varchar)''')
         c.execute('''CREATE TABLE IF NOT EXISTS buildings
-                                            (id varchar, building varchar) CONSTRAINT player_id FOREIGN KEY(id) REFERENCES players(id)''')
+                                            (id varchar, building varchar)''')
         c.execute('''CREATE TABLE IF NOT EXISTS garrison
-                                            (id varchar, unit varchar) CONSTRAINT player_id FOREIGN KEY(id) REFERENCES players(id)''')
+                                            (id varchar, unit varchar)''')
         self.conn.commit()
 
     def get_player(self, player_name):
