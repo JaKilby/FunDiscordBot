@@ -73,21 +73,21 @@ class RaidersManager(object):
 
     def populate_players(self):
         player_cur = self.conn.cursor()
-        player_list = player_cur.execute("SELECT id, name, gold, generators FROM players")
-        if player_list is not None:
-            player_list = player_list.fetchall()
-        for player in player_list:
-            player_id = player[0]
-            player_name = player[1]
-            player_gold = player[2]
-            player_generators = player[3]
-            player_buildings = []
-            cur = self.conn.cursor()
-            items, buildings, garrison = self.load_player(player_id)
-            generators = [Generator()] * player_generators
-            base = Base(garrison=garrison, buildings=buildings, generators=generators, items=items)
-            player_obj = Player(player_name, base, player_id)
-            self.active_players[player_name] = player_obj
+        player_cur.execute("SELECT id, name, gold, generators FROM players")
+        player_list = player_cur.fetchall()
+        if player_list:
+            for player in player_list:
+                player_id = player[0]
+                player_name = player[1]
+                player_gold = player[2]
+                player_generators = player[3]
+                player_buildings = []
+                cur = self.conn.cursor()
+                items, buildings, garrison = self.load_player(player_id)
+                generators = [Generator()] * player_generators
+                base = Base(garrison=garrison, buildings=buildings, generators=generators, items=items)
+                player_obj = Player(player_name, base, player_id)
+                self.active_players[player_name] = player_obj
 
     def load_player(self, player_id):
         items = self.get_items(player_id)
