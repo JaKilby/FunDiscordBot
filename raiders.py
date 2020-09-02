@@ -150,7 +150,6 @@ class RaidersManager(object):
         self.save_table('items', id, base.items)
         self.save_table('garrison', id, base.garrison)
         c = self.conn.cursor()
-        c.execute("UPDATE players SET gold = %s WHERE player_id = %s", (player.gold, player.id))
         c.execute("UPDATE players SET generators = %s WHERE player_id = %s", (generators, player.id))
         self.conn.commit()
 
