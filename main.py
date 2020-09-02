@@ -19,7 +19,7 @@ class GameClient(discord.Client):
         while True:
             await asyncio.sleep(300)
             self.manager.gather_gold_all()
-            self.save_players()
+            self.manager.save_players()
             await self.get_channel(749847611971731496).send("Gathered gold and saved at {}".format(datetime.datetime.now()))
 
     async def on_ready(self):
