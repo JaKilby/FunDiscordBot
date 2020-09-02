@@ -97,58 +97,90 @@ class RaidersManager(object):
 
     def get_buildings(self, player_id):
         cur = self.conn.cursor()
-        cur.execute("SELECT building FROM buildings WHERE id = %s", (player_id,))
+        cur.execute("SELECT building, amount FROM buildings WHERE id = %s", (player_id,))
         all_buildings = cur.fetchall()
         player_buildings = []
         for building in all_buildings:
-            building_name = building[1]
-            building = BUILDINGS_SQL[building_name]()
-            player_buildings.append(player_buildings)
+            building_name = building[0]
+            building = BUILDINGS_SQL[building_name]
+            player_buildings.append([building() for i in range(building[1])])
         return player_buildings
 
     def get_items(self, player_id):
         cur = self.conn.cursor()
-        cur.execute("SELECT item FROM items WHERE id = %s", (player_id,))
+        cur.execute("SELECT item, amount FROM items WHERE id = %s", (player_id,))
         items = cur.fetchall()
         player_items = []
         for item in items:
             item_name = item[0]
-            item = ITEMS_SQL[item_name]()
-            player_items.append(item)
+            item = ITEMS_SQL[item_name]
+            player_items.extend([item() for i in range(item[1])])
         return player_items
 
     def get_garrison(self, player_id):
         cur = self.conn.cursor()
-        cur.execute("SELECT unit FROM garrison WHERE id = %s", (player_id,))
+        cur.execute("SELECT unit, amount FROM garrison WHERE id = %s", (player_id,))
         units = cur.fetchall()
         player_units = []
         for unit in units:
             unit_id = unit[0]
-            unit = UNITS_SQL[unit_id]()
-            player_units.append(unit)
+            unit_obj = UNITS_SQL[unit_id]
+            player_units.extend([unit_obj() for i in range(unit[1])])
         return player_units
 
-    def save_table(self, table_name, player_id, components):
+    def save_table(self, table_name, player_id, component_name, number):
         c = self.conn.cursor()
-        for component in components:
-            c.execute(
-                sql.SQL("insert into {} values (%s, %s)")
-                    .format(sql.Identifier(table_name)),
-                (player_id, component.name))
+        c.execute(
+            sql.SQL("UPDATE {} SET amount = %s WHERE player_id = %s and name = %s")
+                .format(sql.Identifier(table_name)),
+            (number, player_id, component_name))
         self.conn.commit()
         return True
 
+    def save_buildings(self, player_id, base):
+        buildings = {}
+        for building in base.buildings:
+            if building.name in buildings:
+                buildings[building.name] += 1
+            else:
+                buildings[building.name] = 1
+        for building in buildings.keys():
+            num = buildings[building]
+            self.save_table('buildings', player_id, building, num)
+            
+    def save_garrison(self, player_id, base):
+        garrison = {}
+        for unit in base.garrison:
+            if unit.name in garrison:
+                garrison[unit.name] += 1
+            else:
+                garrison[unit.name] = 1
+        for unit in garrison.keys():
+            num = garrison[unit]
+            self.save_table('garrison', player_id, unit, num)
+
+    def save_items(self, player_id, base):
+        items = {}
+        for item in base.items:
+            if item.name in items:
+                items[item.name] += 1
+            else:
+                items[item.name] = 1
+        for unit in items.keys():
+            num = items[item]
+            self.save_table('items', player_id, unit, num)
+
+
     def save_player(self, player):
         base = player.base
-        id = player.id
+        player_id = player.id
         name = player.name
         garrison = base.garrison
         items = base.items
         generators = len(base.generators)
-        buildings = base.buildings
-        self.save_table('buildings', id, base.buildings)
-        self.save_table('items', id, base.items)
-        self.save_table('garrison', id, base.garrison)
+        self.save_buildings(player_id, base)
+        self.save_garrisons(player_id, base)
+        self.save_items(player_id, base)
         c = self.conn.cursor()
         c.execute("UPDATE players SET generators = %s WHERE player_id = %s", (generators, player.id))
         self.conn.commit()
@@ -163,11 +195,11 @@ class RaidersManager(object):
         c.execute('''CREATE TABLE IF NOT EXISTS players
                                             (id varchar PRIMARY KEY, name varchar, gold integer, generators integer)''')
         c.execute('''CREATE TABLE IF NOT EXISTS items
-                                            (id varchar, item varchar)''')
+                                            (id varchar, item varchar, amount integer)''')
         c.execute('''CREATE TABLE IF NOT EXISTS buildings
-                                            (id varchar, building varchar)''')
+                                            (id varchar, building varchar, amount integer)''')
         c.execute('''CREATE TABLE IF NOT EXISTS garrison
-                                            (id varchar, unit varchar)''')
+                                            (id varchar, unit varchar, amount integer)''')
         self.conn.commit()
 
     def get_player(self, player_name):
