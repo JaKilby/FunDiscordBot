@@ -4,12 +4,57 @@ import os
 import random
 from tictactoe import TicTacToe
 from credits_manager import CreditManager
+from raiders import RaidersManager
 from constants import NED, SURPRISE
 from games import Games
 from queue import Queue
+import datetime
+import asyncio
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
+
+class GameClient(discord.Client):
+    async def gold_gatherer(self):
+        while True:
+            await asyncio.sleep(300)
+            self.manager.gather_gold_all()
+            self.save_players()
+            await self.get_channel(749847611971731496).send("Gathered gold and saved at {}".format(datetime.datetime.now()))
+
+    async def on_ready(self):
+        print("Logged in as game manager client")
+        self.manager = RaidersManager()
+        self.command_list = self.manager.command_list()
+        asyncio.create_task(self.gold_gatherer())
+
+    async def on_message(self, message):
+        print("Message from {0.author}: {0.content}".format(message))
+        name = message.author.name
+        if message.channel.name == "raiders-preview" and message.author.name != "minkowbadbot":
+            if message.content[0] == "!":
+                commands = message.content.lower().split()
+                if commands[0] == "!register":
+                    first_char = message.content.find("<") + 3
+                    second_char = message.content.find(">")
+                    player_id = message.content[first_char:second_char]
+                    msg = self.manager.register_player(message.author.id, commands[3], player_id)
+                    await message.channel.send(msg)
+                    return
+                registered, msg = self.manager.check_registration(name)
+                if not registered:
+                    await message.channel.send(msg)
+                    return
+                pointer = self.command_list
+                for command in commands:
+                    pointer = pointer[command]
+                    if callable(pointer):
+                        break
+                else:
+                    await message.channel.send("Command not recognized")
+                    return
+                result = pointer(name)
+                await message.channel.send(result)
 
 class MyClient(discord.Client):
     def check_wager(self, wager, player):
@@ -170,8 +215,8 @@ class MyClient(discord.Client):
     async def on_message(self, message):
         print("Message from {0.author}: {0.content}".format(message))
 
-        rand_int = random.randint(0, 100)
-        if message.author.name == "gmink" and rand_int % 20 == 0:
+        rand_int = random.randint(1, 20)
+        if message.author.name == "gmink" and rand_int == 10:
             await message.channel.send("shut up console nerd")
         elif message.author.name == "ABakedFish" and "ABakedFish" not in [self.player1, self.player2]:
             fish_int = random.randint(0, 5)
@@ -235,8 +280,10 @@ class MyClient(discord.Client):
 
 
 def main():
-    client = MyClient()
+    #client = MyClient()
+    client = GameClient()
     client.run(os.environ['DISCORD_TOKEN'])
+
 
 
 # Press the green button in the gutter to run the script.
