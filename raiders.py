@@ -195,7 +195,7 @@ class RaidersManager(object):
         try:
             c.execute(
                 sql.SQL("UPDATE {} SET amount = %s WHERE player_id = %s and name = %s")
-                   .format(sql_client.Identifier(table_name)),
+                   .format(sql.Identifier(table_name)),
                 (number, player_id, component_name))
             self.conn.commit()
         except Exception as e:
