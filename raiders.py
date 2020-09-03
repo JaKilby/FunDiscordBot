@@ -139,8 +139,8 @@ class RaidersManager(object):
         player_buildings = []
         for building in all_buildings:
             building_name = building[0]
-            building = BUILDINGS_SQL[building_name]
-            player_buildings.append([building() for i in range(building[1])])
+            building_obj = BUILDINGS_SQL[building_name]
+            player_buildings.append([building_obj() for i in range(building[1])])
         return player_buildings
 
     def get_items(self, player_id):
@@ -150,8 +150,8 @@ class RaidersManager(object):
         player_items = []
         for item in items:
             item_name = item[0]
-            item = ITEMS_SQL[item_name]
-            player_items.extend([item() for i in range(item[1])])
+            item_obj = ITEMS_SQL[item_name]
+            player_items.extend([item_obj() for i in range(item[1])])
         return player_items
 
     def get_garrison(self, player_id):
