@@ -1,14 +1,8 @@
 import psycopg2 as sql
-#import sqlite3 as sql
 import os
-import datetime
 import math
-
-#import threading.lock
-
-import uuid
 from units import Man, Army
-from buildings import Building, Generator
+from buildings import Generator
 from constants import GOLD_COIN, GENERATOR_COST, SOLDIER_COST, ARMORY_COST, ITEM_PRICE_MAP
 from base import Base, BUILDINGS_SQL
 from items import ITEMS_SQL
@@ -90,7 +84,6 @@ class RaidersManager(object):
                 player_gold = player[2]
                 player_generators = player[3]
                 player_buildings = []
-                cur = self.conn.cursor()
                 items, buildings, garrison = self.load_player(player_id)
                 generators = [Generator()] * player_generators
                 base = Base(garrison=garrison, buildings=buildings, generators=generators, items=items)
@@ -174,9 +167,9 @@ class RaidersManager(object):
                 items[item.name] += 1
             else:
                 items[item.name] = 1
-        for unit in items.keys():
+        for item in items.keys():
             num = items[item]
-            self.save_table('items', player_id, unit, num)
+            self.save_table('items', player_id, item, num)
 
 
     def save_player(self, player):
@@ -187,15 +180,18 @@ class RaidersManager(object):
         items = base.items
         generators = len(base.generators)
         self.save_buildings(player_id, base)
-        self.save_garrisons(player_id, base)
+        self.save_garrison(player_id, base)
         self.save_items(player_id, base)
         c = self.conn.cursor()
         c.execute("UPDATE players SET generators = %s WHERE player_id = %s", (generators, player.id))
         self.conn.commit()
 
     def save_players(self):
-        for player in self.active_players.values():
-            self.save_player(player)
+        try:
+            for player in self.active_players.values():
+                self.save_player(player)
+        except Exception as e:
+            return False
         return True
 
     def create_tables(self):
@@ -313,6 +309,7 @@ class RaidersManager(object):
     def battle(self, offense_units: Army, defense_units: Army):
         offense_unit = offense_units.next()
         defense_unit = defense_units.next()
+        offense_win = None
         while offense_units.men_remaining() and defense_units.men_remaining():
             offense_win = self.fight(offense_unit, defense_unit)
             if offense_win:
