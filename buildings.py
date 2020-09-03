@@ -25,7 +25,7 @@ class Building(Component):
 
 
 class Generator(Building):
-    def __init__(self, name="Generator", emoji_str=":cloud_lightning:"):
+    def __init__(self, name="generator", emoji_str=":cloud_lightning:"):
         self.name = name
         self.emoji_str = emoji_str
         self.gold = BASE_GENERATOR_GOLD
@@ -38,7 +38,7 @@ class Generator(Building):
 
 
 class Armory(Building):
-    def __init__(self, name="Armory", emoji_str=":shield:"):
+    def __init__(self, name="armory", emoji_str=":shield:"):
         self.name = name
         self.emoji_str = emoji_str
         self.items = [Sword]
