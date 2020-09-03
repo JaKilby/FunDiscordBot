@@ -138,6 +138,9 @@ class RaidersManager(object):
         all_buildings = cur.fetchall()
         player_buildings = []
         for building in all_buildings:
+            print("IN BUILDINGS")
+            print((building[1], building[0]))
+            sys.stdout.flush()
             if building[1]:
                 building_name = building[0]
                 building_obj = BUILDINGS_SQL[building_name]
@@ -150,6 +153,9 @@ class RaidersManager(object):
         items = cur.fetchall()
         player_items = []
         for item in items:
+            print("IN ITEMS")
+            print((item[1], item[0]))
+            sys.stdout.flush()
             if item[1]:
                 item_name = item[0]
                 item_obj = ITEMS_SQL[item_name]
@@ -162,6 +168,9 @@ class RaidersManager(object):
         units = cur.fetchall()
         player_units = []
         for unit in units:
+            print("IN ITEMS")
+            print((unit[1], unit[0]))
+            sys.stdout.flush()
             if unit[1]:
                 unit_id = unit[0]
                 unit_obj = UNITS_SQL[unit_id]
