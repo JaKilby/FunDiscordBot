@@ -66,6 +66,14 @@ class RaidersManager(object):
             return "Invalid access, you are not an admin"
         c = self.conn.cursor()
         c.execute("INSERT INTO players VALUES (%s,%s,%s,3)", (player_id, player_name, 0))
+        for item_name in ITEMS_SQL.keys():
+            c.execute("INSERT INTO items VALUES (%s, %s, %s)", (player_id, item_name, 0))
+        self.conn.commit()
+        for unit_name in UNITS_SQL.keys():
+            c.execute("INSERT INTO garrison VALUES (%s, %s, %s)", (player_id, unit_name, 0))
+        self.conn.commit()
+        for building_name in BUILDINGS_SQL.keys():
+            c.execute("INSERT INTO buildings VALUES (%s, %s, %s)", (player_id, building_name, 0))
         self.conn.commit()
         base = Base(generators=[Generator(), Generator(), Generator()])
         self.active_players[player_name] = Player(player_name, base, player_id)
@@ -192,6 +200,11 @@ class RaidersManager(object):
 
     def create_tables(self):
         c = self.conn.cursor()
+        c.execute('''DROP TABLE IF EXISTS players''')
+        c.execute('''DROP TABLE IF EXISTS items''')
+        c.execute('''DROP TABLE IF EXISTS buildings''')
+        c.execute('''DROP TABLE IF EXISTS garrison''')
+        self.conn.commit()
         c.execute('''CREATE TABLE IF NOT EXISTS players
                                             (id varchar PRIMARY KEY, name varchar, gold integer, generators integer)''')
         c.execute('''CREATE TABLE IF NOT EXISTS items
