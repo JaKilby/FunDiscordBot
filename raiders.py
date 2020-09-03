@@ -147,7 +147,7 @@ class RaidersManager(object):
 
     def get_buildings(self, player_id):
         cur = self.conn.cursor()
-        cur.execute("SELECT building, amount FROM buildings WHERE player_id = %s", (player_id,))
+        cur.execute("SELECT name, amount FROM buildings WHERE player_id = %s", (player_id,))
         all_buildings = cur.fetchall()
         player_buildings = []
         for building in all_buildings:
@@ -162,7 +162,7 @@ class RaidersManager(object):
 
     def get_items(self, player_id):
         cur = self.conn.cursor()
-        cur.execute("SELECT item, amount FROM items WHERE player_id = %s", (player_id,))
+        cur.execute("SELECT name, amount FROM items WHERE player_id = %s", (player_id,))
         items = cur.fetchall()
         player_items = []
         for item in items:
@@ -177,7 +177,7 @@ class RaidersManager(object):
 
     def get_garrison(self, player_id):
         cur = self.conn.cursor()
-        cur.execute("SELECT unit, amount FROM garrison WHERE player_id = %s", (player_id,))
+        cur.execute("SELECT name, amount FROM garrison WHERE player_id = %s", (player_id,))
         units = cur.fetchall()
         player_units = []
         for unit in units:
