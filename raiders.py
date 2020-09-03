@@ -138,9 +138,10 @@ class RaidersManager(object):
         all_buildings = cur.fetchall()
         player_buildings = []
         for building in all_buildings:
-            building_name = building[0]
-            building_obj = BUILDINGS_SQL[building_name]
-            player_buildings.append([building_obj() for i in range(building[1])])
+            if building[1]:
+                building_name = building[0]
+                building_obj = BUILDINGS_SQL[building_name]
+                player_buildings.extend([building_obj() for i in range(building[1])])
         return player_buildings
 
     def get_items(self, player_id):
@@ -149,9 +150,10 @@ class RaidersManager(object):
         items = cur.fetchall()
         player_items = []
         for item in items:
-            item_name = item[0]
-            item_obj = ITEMS_SQL[item_name]
-            player_items.extend([item_obj() for i in range(item[1])])
+            if item[1]:
+                item_name = item[0]
+                item_obj = ITEMS_SQL[item_name]
+                player_items.extend([item_obj() for i in range(item[1])])
         return player_items
 
     def get_garrison(self, player_id):
@@ -160,9 +162,10 @@ class RaidersManager(object):
         units = cur.fetchall()
         player_units = []
         for unit in units:
-            unit_id = unit[0]
-            unit_obj = UNITS_SQL[unit_id]
-            player_units.extend([unit_obj() for i in range(unit[1])])
+            if unit[1]:
+                unit_id = unit[0]
+                unit_obj = UNITS_SQL[unit_id]
+                player_units.extend([unit_obj() for i in range(unit[1])])
         return player_units
 
     def save_table(self, table_name, player_id, component_name, number):
