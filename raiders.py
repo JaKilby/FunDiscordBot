@@ -1,4 +1,5 @@
-import psycopg2 as sql
+import psycopg2 as sql_client
+from psycopg2 import sql
 import os
 import math
 from units import Man, Army
@@ -11,10 +12,11 @@ import sys
 
 ADMIN_LIST = [199256185201885184]
 
+
 class RaidersManager(object):
     def __init__(self):
-        self.conn = sql.connect(os.environ["DATABASE_URL"], sslmode="require")
-        #self.conn = sql.connect("game.db")
+        self.conn = sql_client.connect(os.environ["DATABASE_URL"], sslmode="require")
+        # self.conn = sql_client.connect("game.db")
         self.active_players = {}
         self.create_tables()
         self.populate_players()
@@ -192,9 +194,9 @@ class RaidersManager(object):
         c = self.conn.cursor()
         try:
             c.execute(
-            sql.SQL("UPDATE {} SET amount = %s WHERE player_id = %s and name = %s")
-                .format(sql.Identifier(table_name)),
-            (number, player_id, component_name))
+                sql.SQL("UPDATE {} SET amount = %s WHERE player_id = %s and name = %s")
+                   .format(sql_client.Identifier(table_name)),
+                (number, player_id, component_name))
             self.conn.commit()
         except Exception as e:
             print(e)
@@ -216,7 +218,7 @@ class RaidersManager(object):
         for building in buildings.keys():
             num = buildings[building]
             self.save_table('buildings', player_id, building, num)
-            
+
     def save_garrison(self, player_id, base):
         garrison = {}
         for unit in base.garrison:
@@ -238,7 +240,6 @@ class RaidersManager(object):
         for item in items.keys():
             num = items[item]
             self.save_table('items', player_id, item, num)
-
 
     def save_player(self, player):
         base = player.base
