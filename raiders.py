@@ -63,13 +63,34 @@ class RaidersManager(object):
         c.execute("INSERT INTO players VALUES (%s,%s,%s,3)", (player_id, player_name, 0))
         for item_name in ITEMS_SQL.keys():
             c.execute("INSERT INTO items VALUES (%s, %s, %s)", (player_id, item_name, 0))
-        self.conn.commit()
+        try:
+            self.conn.commit()
+        except Exception as e:
+            print(e)
+            print(e.pgerror)
+            self.conn.rollback()
+        else:
+            self.conn.commit()
         for unit_name in UNITS_SQL.keys():
             c.execute("INSERT INTO garrison VALUES (%s, %s, %s)", (player_id, unit_name, 0))
-        self.conn.commit()
+        try:
+            self.conn.commit()
+        except Exception as e:
+            print(e)
+            print(e.pgerror)
+            self.conn.rollback()
+        else:
+            self.conn.commit()
         for building_name in BUILDINGS_SQL.keys():
             c.execute("INSERT INTO buildings VALUES (%s, %s, %s)", (player_id, building_name, 0))
-        self.conn.commit()
+        try:
+            self.conn.commit()
+        except Exception as e:
+            print(e)
+            print(e.pgerror)
+            self.conn.rollback()
+        else:
+            self.conn.commit()
         base = Base(generators=[Generator(), Generator(), Generator()])
         self.active_players[player_name] = Player(player_name, base, player_id)
         return "Player registered, {} registered!".format(player_name)
@@ -77,6 +98,14 @@ class RaidersManager(object):
     def populate_players(self):
         player_cur = self.conn.cursor()
         player_cur.execute("SELECT id, name, gold, generators FROM players")
+        try:
+            self.conn.commit()
+        except Exception as e:
+            print(e)
+            print(e.pgerror)
+            self.conn.rollback()
+        else:
+            self.conn.commit()
         player_list = player_cur.fetchall()
         if player_list:
             for player in player_list:
@@ -136,7 +165,14 @@ class RaidersManager(object):
             sql.SQL("UPDATE {} SET amount = %s WHERE player_id = %s and name = %s")
                 .format(sql.Identifier(table_name)),
             (number, player_id, component_name))
-        self.conn.commit()
+        try:
+            self.conn.commit()
+        except Exception as e:
+            print(e)
+            print(e.pgerror)
+            self.conn.rollback()
+        else:
+            self.conn.commit()
         return True
 
     def save_buildings(self, player_id, base):
@@ -185,7 +221,14 @@ class RaidersManager(object):
         self.save_items(player_id, base)
         c = self.conn.cursor()
         c.execute("UPDATE players SET generators = %s WHERE player_id = %s", (generators, player.id))
-        self.conn.commit()
+        try:
+            self.conn.commit()
+        except Exception as e:
+            print(e)
+            print(e.pgerror)
+            self.conn.rollback()
+        else:
+            self.conn.commit()
 
     def save_players(self):
         try:
@@ -201,7 +244,14 @@ class RaidersManager(object):
         c.execute('''DROP TABLE IF EXISTS items''')
         c.execute('''DROP TABLE IF EXISTS buildings''')
         c.execute('''DROP TABLE IF EXISTS garrison''')
-        self.conn.commit()
+        try:
+            self.conn.commit()
+        except Exception as e:
+            print(e)
+            print(e.pgerror)
+            self.conn.rollback()
+        else:
+            self.conn.commit()
         c.execute('''CREATE TABLE IF NOT EXISTS players
                                             (id varchar PRIMARY KEY, name varchar, gold integer, generators integer)''')
         c.execute('''CREATE TABLE IF NOT EXISTS items
@@ -210,7 +260,14 @@ class RaidersManager(object):
                                             (id varchar, building varchar, amount integer)''')
         c.execute('''CREATE TABLE IF NOT EXISTS garrison
                                             (id varchar, unit varchar, amount integer)''')
-        self.conn.commit()
+        try:
+            self.conn.commit()
+        except Exception as e:
+            print(e)
+            print(e.pgerror)
+            self.conn.rollback()
+        else:
+            self.conn.commit()
 
     def get_player(self, player_name):
         for player in self.active_players.values():
@@ -294,7 +351,14 @@ class RaidersManager(object):
         total_gold = c.fetchone()[0]
         total_gold += gold_gained
         c.execute("UPDATE players SET gold = %s WHERE id = %s", (total_gold, player.id))
-        self.conn.commit()
+        try:
+            self.conn.commit()
+        except Exception as e:
+            print(e)
+            print(e.pgerror)
+            self.conn.rollback()
+        else:
+            self.conn.commit()
         return "You have {} gold, you've gained {} gold since your last check".format(total_gold, gold_gained)
 
     def gather_gold_all(self):
@@ -305,7 +369,14 @@ class RaidersManager(object):
     def set_gold(self, player_id, total_gold):
         c = self.conn.cursor()
         c.execute("UPDATE players SET gold = %s WHERE id = %s", (total_gold, player_id))
-        self.conn.commit()
+        try:
+            self.conn.commit()
+        except Exception as e:
+            print(e)
+            print(e.pgerror)
+            self.conn.rollback()
+        else:
+            self.conn.commit()
 
     def battle(self, offense_units: Army, defense_units: Army):
         offense_unit = offense_units.next()
