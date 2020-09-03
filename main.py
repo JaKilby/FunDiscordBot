@@ -40,6 +40,7 @@ class GameClient(discord.Client):
                     first_char = message.content.find("<") + 3
                     second_char = message.content.find(">")
                     player_id = message.content[first_char:second_char]
+                    await message.channel.send("Player ID {}".format(player_id))
                     msg = self.manager.register_player(message.author.id, commands[3], player_id)
                     await message.channel.send(msg)
                     return

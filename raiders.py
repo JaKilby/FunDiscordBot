@@ -258,20 +258,20 @@ class RaidersManager(object):
         return None
 
     def create_tables(self):
-        # c = self.conn.cursor()
-        # c.execute('''DROP TABLE IF EXISTS players''')
-        # c.execute('''DROP TABLE IF EXISTS items''')
-        # c.execute('''DROP TABLE IF EXISTS buildings''')
-        # c.execute('''DROP TABLE IF EXISTS garrison''')
-        # try:
-        #     self.conn.commit()
-        # except Exception as e:
-        #     print(e)
-        #     print(e.pgerror)
-        #     sys.stdout.flush()
-        #     self.conn.rollback()
-        # else:
-        #     self.conn.commit()
+        c = self.conn.cursor()
+        c.execute('''DROP TABLE IF EXISTS players''')
+        c.execute('''DROP TABLE IF EXISTS items''')
+        c.execute('''DROP TABLE IF EXISTS buildings''')
+        c.execute('''DROP TABLE IF EXISTS garrison''')
+        try:
+            self.conn.commit()
+        except Exception as e:
+            print(e)
+            print(e.pgerror)
+            sys.stdout.flush()
+            self.conn.rollback()
+        else:
+            self.conn.commit()
         try:
             c = self.conn.cursor()
             c.execute('''CREATE TABLE IF NOT EXISTS players
