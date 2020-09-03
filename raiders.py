@@ -7,6 +7,7 @@ from constants import GOLD_COIN, GENERATOR_COST, SOLDIER_COST, ARMORY_COST, ITEM
 from base import Base, BUILDINGS_SQL
 from items import ITEMS_SQL
 from units import UNITS_SQL
+import sys
 
 ADMIN_LIST = [199256185201885184]
 
@@ -68,6 +69,7 @@ class RaidersManager(object):
         except Exception as e:
             print(e)
             print(e.pgerror)
+            sys.stdout.flush()
             self.conn.rollback()
         else:
             self.conn.commit()
@@ -78,7 +80,9 @@ class RaidersManager(object):
         except Exception as e:
             print(e)
             print(e.pgerror)
+            sys.stdout.flush()
             self.conn.rollback()
+            sys.stdout.flush()
         else:
             self.conn.commit()
         for building_name in BUILDINGS_SQL.keys():
@@ -88,6 +92,7 @@ class RaidersManager(object):
         except Exception as e:
             print(e)
             print(e.pgerror)
+            sys.stdout.flush()
             self.conn.rollback()
         else:
             self.conn.commit()
@@ -103,6 +108,7 @@ class RaidersManager(object):
         except Exception as e:
             print(e)
             print(e.pgerror)
+            sys.stdout.flush()
             self.conn.rollback()
         else:
             self.conn.commit()
@@ -170,6 +176,7 @@ class RaidersManager(object):
         except Exception as e:
             print(e)
             print(e.pgerror)
+            sys.stdout.flush()
             self.conn.rollback()
         else:
             self.conn.commit()
@@ -226,6 +233,7 @@ class RaidersManager(object):
         except Exception as e:
             print(e)
             print(e.pgerror)
+            sys.stdout.flush()
             self.conn.rollback()
         else:
             self.conn.commit()
@@ -249,6 +257,7 @@ class RaidersManager(object):
         except Exception as e:
             print(e)
             print(e.pgerror)
+            sys.stdout.flush()
             self.conn.rollback()
         else:
             self.conn.commit()
@@ -265,6 +274,7 @@ class RaidersManager(object):
         except Exception as e:
             print(e)
             print(e.pgerror)
+            sys.stdout.flush()
             self.conn.rollback()
         else:
             self.conn.commit()
@@ -356,6 +366,7 @@ class RaidersManager(object):
         except Exception as e:
             print(e)
             print(e.pgerror)
+            sys.stdout.flush()
             self.conn.rollback()
         else:
             self.conn.commit()
@@ -374,6 +385,7 @@ class RaidersManager(object):
         except Exception as e:
             print(e)
             print(e.pgerror)
+            sys.stdout.flush()
             self.conn.rollback()
         else:
             self.conn.commit()
