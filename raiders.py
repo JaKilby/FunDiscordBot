@@ -56,6 +56,7 @@ class RaidersManager(object):
             return True, ""
 
     def register_player(self, admin_name: int, player_name: str, player_id):
+        player_id = str(player_id)
         if admin_name not in ADMIN_LIST:
             return "Invalid access, you are not an admin"
         c = self.conn.cursor()
