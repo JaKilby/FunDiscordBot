@@ -289,11 +289,11 @@ class RaidersManager(object):
             c.execute('''CREATE TABLE IF NOT EXISTS players
                                                 (player_id varchar PRIMARY KEY, name varchar, gold integer, generators integer)''')
             c.execute('''CREATE TABLE IF NOT EXISTS items
-                                                (player_id varchar, item varchar, amount integer)''')
+                                                (player_id varchar, name varchar, amount integer)''')
             c.execute('''CREATE TABLE IF NOT EXISTS buildings
-                                                (player_id varchar, building varchar, amount integer)''')
+                                                (player_id varchar, name varchar, amount integer)''')
             c.execute('''CREATE TABLE IF NOT EXISTS garrison
-                                                (player_id varchar, unit varchar, amount integer)''')
+                                                (player_id varchar, name varchar, amount integer)''')
             self.conn.commit()
         except Exception as e:
             print(e)
