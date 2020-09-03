@@ -246,29 +246,30 @@ class RaidersManager(object):
         return None
 
     def create_tables(self):
-        c = self.conn.cursor()
-        c.execute('''DROP TABLE IF EXISTS players''')
-        c.execute('''DROP TABLE IF EXISTS items''')
-        c.execute('''DROP TABLE IF EXISTS buildings''')
-        c.execute('''DROP TABLE IF EXISTS garrison''')
+        # c = self.conn.cursor()
+        # c.execute('''DROP TABLE IF EXISTS players''')
+        # c.execute('''DROP TABLE IF EXISTS items''')
+        # c.execute('''DROP TABLE IF EXISTS buildings''')
+        # c.execute('''DROP TABLE IF EXISTS garrison''')
+        # try:
+        #     self.conn.commit()
+        # except Exception as e:
+        #     print(e)
+        #     print(e.pgerror)
+        #     sys.stdout.flush()
+        #     self.conn.rollback()
+        # else:
+        #     self.conn.commit()
         try:
-            self.conn.commit()
-        except Exception as e:
-            print(e)
-            print(e.pgerror)
-            sys.stdout.flush()
-            self.conn.rollback()
-        else:
-            self.conn.commit()
-        c.execute('''CREATE TABLE IF NOT EXISTS players
-                                            (player_id varchar PRIMARY KEY, name varchar, gold integer, generators integer)''')
-        c.execute('''CREATE TABLE IF NOT EXISTS items
-                                            (player_id varchar, item varchar, amount integer)''')
-        c.execute('''CREATE TABLE IF NOT EXISTS buildings
-                                            (player_id varchar, building varchar, amount integer)''')
-        c.execute('''CREATE TABLE IF NOT EXISTS garrison
-                                            (player_id varchar, unit varchar, amount integer)''')
-        try:
+            c = self.conn.cursor()
+            c.execute('''CREATE TABLE IF NOT EXISTS players
+                                                (player_id varchar PRIMARY KEY, name varchar, gold integer, generators integer)''')
+            c.execute('''CREATE TABLE IF NOT EXISTS items
+                                                (player_id varchar, item varchar, amount integer)''')
+            c.execute('''CREATE TABLE IF NOT EXISTS buildings
+                                                (player_id varchar, building varchar, amount integer)''')
+            c.execute('''CREATE TABLE IF NOT EXISTS garrison
+                                                (player_id varchar, unit varchar, amount integer)''')
             self.conn.commit()
         except Exception as e:
             print(e)
