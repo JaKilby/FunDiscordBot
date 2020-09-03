@@ -102,7 +102,7 @@ class RaidersManager(object):
 
     def populate_players(self):
         player_cur = self.conn.cursor()
-        player_cur.execute("SELECT id, name, gold, generators FROM players")
+        player_cur.execute("SELECT player_id, name, gold, generators FROM players")
         try:
             self.conn.commit()
         except Exception as e:
@@ -134,7 +134,7 @@ class RaidersManager(object):
 
     def get_buildings(self, player_id):
         cur = self.conn.cursor()
-        cur.execute("SELECT building, amount FROM buildings WHERE id = %s", (player_id,))
+        cur.execute("SELECT building, amount FROM buildings WHERE player_id = %s", (player_id,))
         all_buildings = cur.fetchall()
         player_buildings = []
         for building in all_buildings:
@@ -145,7 +145,7 @@ class RaidersManager(object):
 
     def get_items(self, player_id):
         cur = self.conn.cursor()
-        cur.execute("SELECT item, amount FROM items WHERE id = %s", (player_id,))
+        cur.execute("SELECT item, amount FROM items WHERE player_id = %s", (player_id,))
         items = cur.fetchall()
         player_items = []
         for item in items:
@@ -156,7 +156,7 @@ class RaidersManager(object):
 
     def get_garrison(self, player_id):
         cur = self.conn.cursor()
-        cur.execute("SELECT unit, amount FROM garrison WHERE id = %s", (player_id,))
+        cur.execute("SELECT unit, amount FROM garrison WHERE player_id = %s", (player_id,))
         units = cur.fetchall()
         player_units = []
         for unit in units:
@@ -261,13 +261,13 @@ class RaidersManager(object):
         else:
             self.conn.commit()
         c.execute('''CREATE TABLE IF NOT EXISTS players
-                                            (id varchar PRIMARY KEY, name varchar, gold integer, generators integer)''')
+                                            (player_id varchar PRIMARY KEY, name varchar, gold integer, generators integer)''')
         c.execute('''CREATE TABLE IF NOT EXISTS items
-                                            (id varchar, item varchar, amount integer)''')
+                                            (player_id varchar, item varchar, amount integer)''')
         c.execute('''CREATE TABLE IF NOT EXISTS buildings
-                                            (id varchar, building varchar, amount integer)''')
+                                            (player_id varchar, building varchar, amount integer)''')
         c.execute('''CREATE TABLE IF NOT EXISTS garrison
-                                            (id varchar, unit varchar, amount integer)''')
+                                            (player_id varchar, unit varchar, amount integer)''')
         try:
             self.conn.commit()
         except Exception as e:
@@ -359,7 +359,7 @@ class RaidersManager(object):
         c.execute("SELECT gold FROM players WHERE name = %s", (player_name,))
         total_gold = c.fetchone()[0]
         total_gold += gold_gained
-        c.execute("UPDATE players SET gold = %s WHERE id = %s", (total_gold, player.id))
+        c.execute("UPDATE players SET gold = %s WHERE player_id = %s", (total_gold, player.id))
         try:
             self.conn.commit()
         except Exception as e:
@@ -378,7 +378,7 @@ class RaidersManager(object):
 
     def set_gold(self, player_id, total_gold):
         c = self.conn.cursor()
-        c.execute("UPDATE players SET gold = %s WHERE id = %s", (total_gold, player_id))
+        c.execute("UPDATE players SET gold = %s WHERE player_id = %s", (total_gold, player_id))
         try:
             self.conn.commit()
         except Exception as e:
