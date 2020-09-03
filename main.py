@@ -17,11 +17,11 @@ import asyncio
 class GameClient(discord.Client):
     async def gold_gatherer(self):
         while True:
-            await asyncio.sleep(300)
+            await asyncio.sleep(60)
             self.manager.gather_gold_all()
             result = self.manager.save_players()
             if result:
-                await self.get_channel(749847611971731496).send("Successfully saved")
+                await self.get_channel(749847611971731496).send(result)
             await self.get_channel(749847611971731496).send("Gathered gold and saved at {}".format(datetime.datetime.now()))
 
     async def on_ready(self):

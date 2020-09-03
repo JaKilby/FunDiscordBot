@@ -167,17 +167,18 @@ class RaidersManager(object):
 
     def save_table(self, table_name, player_id, component_name, number):
         c = self.conn.cursor()
-        c.execute(
+        try:
+            c.execute(
             sql.SQL("UPDATE {} SET amount = %s WHERE player_id = %s and name = %s")
                 .format(sql.Identifier(table_name)),
             (number, player_id, component_name))
-        try:
             self.conn.commit()
         except Exception as e:
             print(e)
             print(e.pgerror)
             sys.stdout.flush()
             self.conn.rollback()
+            return "In save_table {}, table: {}".format(e.pgerror, table_name)
         else:
             self.conn.commit()
         return True
@@ -226,25 +227,23 @@ class RaidersManager(object):
         self.save_buildings(player_id, base)
         self.save_garrison(player_id, base)
         self.save_items(player_id, base)
-        c = self.conn.cursor()
-        c.execute("UPDATE players SET generators = %s WHERE player_id = %s", (generators, player_id))
         try:
+            c = self.conn.cursor()
+            c.execute("UPDATE players SET generators = %s WHERE player_id = %s", (generators, player_id))
             self.conn.commit()
         except Exception as e:
             print(e)
             print(e.pgerror)
             sys.stdout.flush()
             self.conn.rollback()
+            return "In save_player {}".format(e.pgerror)
         else:
             self.conn.commit()
 
     def save_players(self):
-        try:
-            for player in self.active_players.values():
-                self.save_player(player)
-        except Exception as e:
-            return False
-        return True
+        for player in self.active_players.values():
+            self.save_player(player)
+        return None
 
     def create_tables(self):
         c = self.conn.cursor()
