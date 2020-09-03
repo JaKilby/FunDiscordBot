@@ -218,7 +218,7 @@ class RaidersManager(object):
 
     def save_player(self, player):
         base = player.base
-        player_id = player.id
+        player_id = str(player.id)
         name = player.name
         garrison = base.garrison
         items = base.items
@@ -227,7 +227,7 @@ class RaidersManager(object):
         self.save_garrison(player_id, base)
         self.save_items(player_id, base)
         c = self.conn.cursor()
-        c.execute("UPDATE players SET generators = %s WHERE player_id = %s", (generators, player.id))
+        c.execute("UPDATE players SET generators = %s WHERE player_id = %s", (generators, player_id))
         try:
             self.conn.commit()
         except Exception as e:
