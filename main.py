@@ -13,7 +13,7 @@ import asyncio
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
-
+#dl
 class GameClient(discord.Client):
     async def gold_gatherer(self):
         while True:
